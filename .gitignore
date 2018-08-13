@@ -2,7 +2,9 @@
 /CMakeFiles/
 /CMakeCache.txt
 /cmake_install.cmake
+/cmake_deb_package
 /Makefile
 /src/perl/XS.c
 /libbladepsgi_perl.a
 /bladepsgi
+/bladepsgi_*.deb

@@ -74,3 +74,41 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -g")
+
+
+#
+# Deb files
+#
+
+install(FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/bladepsgi
+    DESTINATION /usr/sbin
+    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+)
+
+set(DEB_PACKAGE_NAME ${CMAKE_PROJECT_NAME})
+set(DEB_PACKAGE_VERSION "0.1-1")
+set(DEB_PACKAGE_SECTION "utils")
+set(DEB_PACKAGE_DESRCIPTION "Expose multiple instances of a PSGI application over a FastCGI socket.\\n\
+  While PSGI is a nice interface for writing web applications, the options\\n\
+  available for actually running these applications are somewhat scarce.\\n\
+  BladePSGI was developed when it become apparent that patching our custom\\n\
+  Perl-based runner was a dead end.\\n\
+  BladePSGI has a process-based architecture, meaning that each instance of the\\n\
+  PSGI application runs in its own, single-threaded process. BladePSGI takes care\\n\
+  of forking all backends at startup, and then sits in the background making sure\\n\
+  that none of the backends crash, or shutting them down if the server\\n\
+  administrator asks for that to happen. It also starts a separate monitoring\\n\
+  process which can be used to provide statistics to a separate monitoring\\n\
+  system, e.g. Prometheus.\\n\
+  For communication with other services, BladePSGI exposes a UNIX domain FastCGI\\n\
+  socket. Any (for example) HTTP daemon capable of acting as a FastCGI client can\\n\
+  be used to then expose the application to the internet.\\n\
+  If the PSGI application author chooses they can ask for \"auxiliary processes\"\\n\
+  to be started and run with the application, expose the status of each backend\\n\
+  process in shared memory, or share atomics-based semaphores or atomic integers\\n\
+  between PSGI application backends.")
+set(DEB_PACKAGE_MAINTAINER "Marko Tikkaja <marko@trustly.com>")
+set(DEB_PACKAGE_ARCH "amd64")
+
+include(deb_packaging.cmake)
